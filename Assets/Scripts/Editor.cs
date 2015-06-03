@@ -8,6 +8,10 @@ using System.Collections;
  */
 public class Editor : MonoBehaviour {
 
+	// The width of the assets panel in screen pixels, this is necessary
+	// for ignoring all mouse clicks that occur in the assets pane in this script
+	public static float panelWidth = 150f;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -15,6 +19,9 @@ public class Editor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Input.mousePosition.x < 150) {
+			return;
+		}
 		if (Input.GetMouseButtonUp (0)) {
 			// TODO Check if the mouse is on a platform, or above the board
 
