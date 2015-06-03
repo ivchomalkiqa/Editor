@@ -1,0 +1,1 @@
+Place here all prefabs which are considered assets for making a level: platforms, player spawner, etc. These will be automatically loaded into the Editor.
