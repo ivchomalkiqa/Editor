@@ -1,3 +1,129 @@
 Base path: D:/Unity/Editor/Data
-Pipe name: \\.\pipe\UnityShaderCompiler-64bit-1-16912
+Pipe name: \\.\pipe\UnityShaderCompiler-64bit-1-6972
 Cmd: getPlatforms
+Cmd: preprocess
+  error: 1 plat 15 at (106): Both vertex and fragment programs must be present in a CGPROGRAM. Excluding it from compilation.
+  insize=2829 outsize=2178 ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=926 outsize=1599 kw= ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=926 outsize=502 kw= ok=1
+Cmd: preprocess
+  error: 1 plat 15 at (106): Both vertex and fragment programs must be present in a CGPROGRAM. Excluding it from compilation.
+  insize=2828 outsize=2177 ok=1
+Cmd: preprocess
+  error: 1 plat 15 at (106): Both vertex and fragment programs must be present in a CGPROGRAM. Excluding it from compilation.
+  insize=2828 outsize=2177 ok=1
+Cmd: preprocess
+  error: 1 plat 15 at (106): Both vertex and fragment programs must be present in a CGPROGRAM. Excluding it from compilation.
+  insize=2828 outsize=2177 ok=1
+Cmd: preprocess
+  error: 1 plat 15 at (106): Both vertex and fragment programs must be present in a CGPROGRAM. Excluding it from compilation.
+  insize=2831 outsize=2180 ok=1
+Cmd: preprocess
+  error: 1 plat 15 at (106): Both vertex and fragment programs must be present in a CGPROGRAM. Excluding it from compilation.
+  insize=2831 outsize=2180 ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=966 outsize=1274 kw= ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=966 outsize=795 kw= ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=1705 outsize=1274 kw=SOFTPARTICLES_OFF ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=1705 outsize=908 kw=SOFTPARTICLES_OFF ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=751 outsize=3760 kw=SHADOWS_DEPTH _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=751 outsize=1217 kw=SHADOWS_DEPTH _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=977 outsize=3963 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=977 outsize=10520 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=934 outsize=4020 kw=DIRECTIONAL SHADOWS_OFF _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=934 outsize=5523 kw=DIRECTIONAL SHADOWS_OFF _ALPHAPREMULTIPLY_ON ok=1
+Cmd: preprocess
+  insize=992 outsize=1275 ok=1
+Cmd: preprocess
+  error: 1 plat 15 at (13): Both vertex and fragment programs must be present in a CGPROGRAM. Excluding it from compilation.
+  insize=2258 outsize=830 ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=1017 outsize=1680 kw= ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=1017 outsize=965 kw= ok=1
+Cmd: preprocess
+  error: 1 plat 15 at (13): Both vertex and fragment programs must be present in a CGPROGRAM. Excluding it from compilation.
+  insize=2256 outsize=828 ok=1
+Cmd: preprocess
+  error: 1 plat 15 at (13): Both vertex and fragment programs must be present in a CGPROGRAM. Excluding it from compilation.
+  insize=2256 outsize=828 ok=1
+Cmd: preprocess
+  error: 1 plat 15 at (102): Both vertex and fragment programs must be present in a CGPROGRAM. Excluding it from compilation.
+  insize=2437 outsize=3754 ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=7444 outsize=3647 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=7444 outsize=1298 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=4281 outsize=2737 kw=POINT ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=4281 outsize=1932 kw=POINT ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=3439 outsize=2517 kw= ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=3439 outsize=681 kw= ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=6609 outsize=4061 kw=LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF HDR_LIGHT_PREPASS_OFF ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=6609 outsize=1347 kw=LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF HDR_LIGHT_PREPASS_OFF ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=6562 outsize=3785 kw=LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF HDR_LIGHT_PREPASS_OFF ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=6562 outsize=1632 kw=LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF HDR_LIGHT_PREPASS_OFF ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=3630 outsize=2468 kw= ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=3630 outsize=1298 kw= ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=1001 outsize=1599 kw= ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=1001 outsize=502 kw= ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=7444 outsize=3647 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=7444 outsize=1298 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=4281 outsize=2737 kw=POINT ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=4281 outsize=1932 kw=POINT ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=3439 outsize=2517 kw= ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=3439 outsize=681 kw= ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=6609 outsize=4061 kw=LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF HDR_LIGHT_PREPASS_OFF ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=6609 outsize=1347 kw=LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF HDR_LIGHT_PREPASS_OFF ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=6562 outsize=3785 kw=LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF HDR_LIGHT_PREPASS_OFF ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=6562 outsize=1632 kw=LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF HDR_LIGHT_PREPASS_OFF ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=3630 outsize=2468 kw= ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=3630 outsize=1298 kw= ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=4281 outsize=2737 kw=DIRECTIONAL ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=4281 outsize=1152 kw=DIRECTIONAL ok=1
+Cmd: preprocess
+  insize=1853 outsize=820 ok=1
+Cmd: preprocess
+  insize=1220 outsize=380 ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=1139 outsize=1136 kw= ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=1139 outsize=713 kw= ok=1
+Cmd: preprocess
+  insize=1220 outsize=380 ok=1

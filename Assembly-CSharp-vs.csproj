@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\FallingPlatform.cs" />
      <Compile Include="Assets\Scripts\InstructionsRemover.cs" />
      <Compile Include="Assets\Scripts\UnwrapColumn.cs" />
+     <None Include="Assets\Shaders\DefaultDiffuse.shader" />
      <None Include="Assets\Resources\AssetPrefabs\README.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
