@@ -13,11 +13,7 @@ public class UnwrapColumn : MonoBehaviour {
 	// The radius of the column which is unwrapped in this editor.
 	// This value must match the radius of the column inside the game,
 	// otherwise levels will not translate well from the editor to the game.
-	public static float columnRadius = 5f;
-	// This is the coordinate on x-axis where the left edge of the unwrapped cylinder will be anchored
-	public float leftX = -13f;
-	// This is the coordinate on the y-axis where the bottom edge of the unwrapped cylinder will be anchored
-	public float bottomY = -5f;
+	public float columnRadius = 5f;
 	// The material of the plane
 	public Material material;
 	// Contains the height of the plane. Default value is just enough to fill the camera view (i.e. 10);
@@ -37,10 +33,10 @@ public class UnwrapColumn : MonoBehaviour {
 		// |      |
 		// 3------2
 		Vector3[] vertices = new Vector3[] {
-			new Vector3 (leftX, 		bottomY + height, 	0),	//0
-			new Vector3 (leftX + width, bottomY + height, 	0),	//1
-			new Vector3 (leftX + width, bottomY, 			0),	//2
-			new Vector3 (leftX, 		bottomY, 			0)	//3
+			new Vector3 (0, 	height, 0),	//0
+			new Vector3 (width, height, 0),	//1
+			new Vector3 (width, 0, 		0),	//2
+			new Vector3 (0, 	0, 		0)	//3
 		};
 
 		int[] triangles = new int[] {

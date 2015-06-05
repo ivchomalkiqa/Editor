@@ -16,6 +16,10 @@ public class Editor : MonoBehaviour {
 	// By how much is the size of assets changed during every resize step
 	public float sizeChangeStep = 1f;
 
+	public static bool snappingOn = true;
+	// This is for the UI to update the text when snapping mode changes
+	public SnappingTextUpdater snapText;
+
 	// If the user clicks on an existing asset, it becomes selected
 	GameObject selectedAsset;
 	// A backup of the original shader used by the selected asset
@@ -25,13 +29,13 @@ public class Editor : MonoBehaviour {
 	// Since there should be only one spawner per level, I will keep a reference to the instance
 	// of the spawner to make things easier
 	GameObject spawner;
+	
+	const float MIN_SIZE = 1f, MAX_SIZE = 5f;
 
-	float minSize, maxSize;
-
-	// Use this for initialization
 	void Start () {
-		minSize = 1;
-		maxSize = UnwrapColumn.columnRadius;
+		if (snapText) {
+			snapText.SetSnapping (snappingOn);
+		}
 	}
 	
 	// Update is called once per frame
@@ -39,7 +43,7 @@ public class Editor : MonoBehaviour {
 		// On LMB mouse down, figure out whether the user is clicking on an asset,
 		// deselecting an already selected asset or creating a new one, by calling HandleSelection ()
 		if (Input.GetMouseButtonDown (0)) {
-			HandleSelection ();
+			ProcessSelection ();
 		}
 
 		// If the mouse is being held down while an asset is selected, then move the asset as
@@ -62,6 +66,19 @@ public class Editor : MonoBehaviour {
 			// Resize asset up
 			ResizeSelectedAsset (sizeChangeStep);
 		}
+
+		if (Input.GetKeyUp (KeyCode.S)) {
+			// Toggle snapping
+			snappingOn = !snappingOn;
+			if (snapText) {
+				snapText.SetSnapping (snappingOn);
+			}
+		}
+
+		if (Input.GetKeyUp (KeyCode.Delete) && selectedAsset) {
+			Destroy (selectedAsset);
+			selectedAsset = null;
+		}
 	}
 
 	// A helper method aimed at reducing the complexity of the
@@ -69,7 +86,7 @@ public class Editor : MonoBehaviour {
 	// deselecting assets when the mouse is clicked over them or
 	// away from them, and also creating new asset when the mouse is
 	// clicked over empty space with no other asset selected.
-	private void HandleSelection () {
+	private void ProcessSelection () {
 		// Ignore clicks inside the assets panel
 		if (Input.mousePosition.x < 150) {
 			DeselectAsset ();
@@ -92,7 +109,8 @@ public class Editor : MonoBehaviour {
 			if (!DeselectAsset ()) {
 				// Create a new asset at the provided position in case
 				// an asset was not deselected, i.e. no asset was selected in the first place
-				CreateAsset(mouseDownPosition);
+				selectedAsset = CreateAsset(mouseDownPosition);
+				HighlightSelectedAsset ();
 			}
 		}
 	}
@@ -111,36 +129,77 @@ public class Editor : MonoBehaviour {
 	// the z-coordinate. The asset created corresponds to the selectedPrefab
 	// from the AssetButtonManager script. If no prefab is selected, then 
 	// this method does nothing.
-	protected void CreateAsset(Vector3 position) {
+	protected GameObject CreateAsset(Vector3 position) {
 		// First get the type of asset that has been selected
 		GameObject assetPrefab = AssetButtonsManager.selectedPrefab;
 
 		if (assetPrefab && assetPrefab.name != "Spawner") {
 			// We have an asset which is selected; instantiate it
-			GameObject asset = Instantiate<GameObject> (assetPrefab);
+			GameObject newAsset = Instantiate<GameObject> (assetPrefab);
 			// Change the position of the asset to match the position provided in the xy plane
-			asset.transform.position = new Vector3 (position.x, position.y, asset.transform.position.z);
-			asset.transform.parent = transform;
+			newAsset.transform.position = new Vector3 (position.x, position.y, newAsset.transform.position.z);
+			newAsset.transform.parent = transform;
+			return newAsset;
 		} else if (assetPrefab && assetPrefab.name == "Spawner" && !spawner) {
 			// A spawner has not yet been created, create one
-			GameObject asset = Instantiate<GameObject> (assetPrefab);
+			GameObject newSpawner = Instantiate<GameObject> (assetPrefab);
 			// Change the position of the asset to match the position provided in the xy plane
-			asset.transform.position = new Vector3 (position.x, position.y, asset.transform.position.z);
-			asset.transform.parent = transform;
-			spawner = asset;
+			newSpawner.transform.position = new Vector3 (position.x, position.y, newSpawner.transform.position.z);
+			newSpawner.transform.parent = transform;
+			spawner = newSpawner;
+			return newSpawner;
 		}
+		return null;
 	}
 
 	// Moves the asset with the mouse
 	void MoveAsset (GameObject selectedAsset) {
-		Vector3 newPosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-		// Calculate the vector from the mouseDownPosition to the current position
-		Vector3 difference = newPosition - mouseDownPosition;
+		if (!snappingOn) {
+			Vector3 newPosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+			// Calculate the vector from the mouseDownPosition to the current position
+			Vector3 difference = newPosition - mouseDownPosition;
 		
-		// Move the asset with the difference
-		selectedAsset.transform.position = selectedAsset.transform.position + difference;
-		// Update the mouseDownPosition for next frame
-		mouseDownPosition = newPosition;
+			// Move the asset with the difference
+			selectedAsset.transform.position = selectedAsset.transform.position + difference;
+			// Update the mouseDownPosition for next frame
+			mouseDownPosition = newPosition;
+		} else {
+			// Snap the asset to the rectangle of the board into which the mouse is found
+			Vector3 newPosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+			// Determine the square into which the mouse is located
+			Vector2 size = new Vector2 (sizeChangeStep / 2f, sizeChangeStep / 2f);
+			Vector2 newSquareCoord = new Vector2 (Mathf.Floor (newPosition.x / size.x),
+			                                  	  Mathf.Floor (newPosition.y / size.y));
+			Vector2 oldSquareCoord = new Vector2 (Mathf.Floor (mouseDownPosition.x / size.x),
+			                                      Mathf.Floor (mouseDownPosition.y / size.y));
+			// Snap the asset to the closest grid centre
+			SnapAsset (selectedAsset, size);
+			// Move the asset with the difference in squares
+			Vector3 difference = new Vector3 (newSquareCoord.x - oldSquareCoord.x,
+			                                  newSquareCoord.y - oldSquareCoord.y,
+			                                  0);
+			// Transform the difference from number of squares, to actual coordinates difference
+			difference.x *= size.x;
+			difference.y *= size.y;
+			// Move the asset with the difference
+			selectedAsset.transform.position = selectedAsset.transform.position + difference;
+			// Update the mouseDownPosition for next frame
+			mouseDownPosition = newPosition;
+		}
+	}
+
+	// Sets the transform of an asset to match the centre of the
+	// grid into which this transform is located
+	void SnapAsset (GameObject asset, Vector2 size) {
+		Vector3 assetPos = asset.transform.position;
+
+		Vector2 assetSquare = new Vector2 (Mathf.Floor (assetPos.x / size.x),
+		                                   Mathf.Floor (assetPos.y / size.y));
+
+		Vector2 halfSize = size / 2f;
+		asset.transform.position = new Vector3 (assetSquare.x * size.x,
+		                                        assetSquare.y * size.y,
+		                                        asset.transform.position.z);
 	}
 
 	// Casts a ray forward from the position of the mouse.
@@ -156,6 +215,9 @@ public class Editor : MonoBehaviour {
 
 	// Changes the shader of the specified asset to the highlightedShader
 	void HighlightSelectedAsset () {
+		if (!selectedAsset) {
+			return;
+		}
 		// First backup original shader of the asset
 		Renderer rend = selectedAsset.GetComponent<Renderer> ();
 		selectedAssetShader = rend.material.shader;
@@ -177,10 +239,10 @@ public class Editor : MonoBehaviour {
 		if (selectedAsset) {
 			float scaleX = selectedAsset.transform.localScale.x;
 			scaleX += amount;
-			if (scaleX < minSize) {
-				scaleX = minSize;
-			} else if (scaleX > maxSize) {
-				scaleX = maxSize;
+			if (scaleX < MIN_SIZE) {
+				scaleX = MIN_SIZE;
+			} else if (scaleX > MAX_SIZE) {
+				scaleX = MAX_SIZE;
 			}
 			// Apply new scale
 			Vector3 tmp = selectedAsset.transform.localScale;
