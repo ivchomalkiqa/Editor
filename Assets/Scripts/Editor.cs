@@ -13,6 +13,8 @@ public class Editor : MonoBehaviour {
 	public static float panelWidth = 150f;
 	// This will be the shader used for highlighted (or selected) assets
 	public Shader highlightedShader;
+	// By how much is the size of assets changed during every resize step
+	public float sizeChangeStep = 1f;
 
 	// If the user clicks on an existing asset, it becomes selected
 	GameObject selectedAsset;
@@ -24,45 +26,74 @@ public class Editor : MonoBehaviour {
 	// of the spawner to make things easier
 	GameObject spawner;
 
+	float minSize, maxSize;
+
 	// Use this for initialization
 	void Start () {
-	
+		minSize = 1;
+		maxSize = UnwrapColumn.columnRadius;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		// On LMB mouse down, figure out whether the user is clicking on an asset,
+		// deselecting an already selected asset or creating a new one, by calling HandleSelection ()
 		if (Input.GetMouseButtonDown (0)) {
-			// Ignore clicks inside the assets panel
-			if (Input.mousePosition.x < 150) {
-				DeselectAsset ();
-				return;
-			}
-			// Save the mouse down position
-			mouseDownPosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-
-			// Now check whether we clicked on the board or on an existing asset
-			// To do that, create a ray from the mouse position pointing forward
-			// and see if that ray hits an asset.
-			RaycastHit hit;
-			if (RaycastFromMouse (out hit)) {
-				// Clear any previous selection
-				DeselectAsset ();
-				// Select the asset under the cursor
-				selectedAsset = hit.collider.gameObject;
-				HighlightSelectedAsset ();
-			} else {
-				if (!DeselectAsset ()) {
-					// Create a new asset at the provided position in case
-					// an asset was not deselected, i.e. no asset was selected in the first place
-					CreateAsset(mouseDownPosition);
-				}
-			}
+			HandleSelection ();
 		}
 
 		// If the mouse is being held down while an asset is selected, then move the asset as
 		// much as the mouse is moved
 		if (Input.GetMouseButton (0) && selectedAsset) {
 			MoveAsset (selectedAsset);
+		}
+
+		// If the scroll wheel is scrolled, resize asset between min and max values, if there is
+		// an asset already selected
+		if (Input.GetAxis ("Mouse ScrollWheel") == 0) {
+			// Skip next two checks after having done only one check
+			// This statement is unnecessary, but it reduces the number of
+			// checks by one the majority of time, when we are not scrolling.
+			// The tradeoff is that when we do scroll, it increases the number of checks by one.
+		} else if (Input.GetAxis ("Mouse ScrollWheel") < 0 && selectedAsset) {
+			// Resize asset down
+			ResizeSelectedAsset (-sizeChangeStep);
+		} else if (Input.GetAxis ("Mouse ScrollWheel") > 0 && selectedAsset) {
+			// Resize asset up
+			ResizeSelectedAsset (sizeChangeStep);
+		}
+	}
+
+	// A helper method aimed at reducing the complexity of the
+	// Update method. What it does is take care of selecting and
+	// deselecting assets when the mouse is clicked over them or
+	// away from them, and also creating new asset when the mouse is
+	// clicked over empty space with no other asset selected.
+	private void HandleSelection () {
+		// Ignore clicks inside the assets panel
+		if (Input.mousePosition.x < 150) {
+			DeselectAsset ();
+			return;
+		}
+		// Save the mouse down position
+		mouseDownPosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+		
+		// Now check whether we clicked on the board or on an existing asset
+		// To do that, create a ray from the mouse position pointing forward
+		// and see if that ray hits an asset.
+		RaycastHit hit;
+		if (RaycastFromMouse (out hit)) {
+			// Clear any previous selection
+			DeselectAsset ();
+			// Select the asset under the cursor
+			selectedAsset = hit.collider.gameObject;
+			HighlightSelectedAsset ();
+		} else {
+			if (!DeselectAsset ()) {
+				// Create a new asset at the provided position in case
+				// an asset was not deselected, i.e. no asset was selected in the first place
+				CreateAsset(mouseDownPosition);
+			}
 		}
 	}
 
@@ -135,5 +166,37 @@ public class Editor : MonoBehaviour {
 	void UnhighlightSelectedAsset () {
 		Renderer rend = selectedAsset.GetComponent<Renderer> ();
 		rend.material.shader = selectedAssetShader;
+	}
+
+	// Scales the selected asset on its local x-axis, so that 
+	// it changes size with the desired amount, if there is an 
+	// asset selected, and if its size remains within the minSize
+	// and maxSize bounds (inclusively) after the change.
+	void ResizeSelectedAsset (float amount) {
+		// TODO Restrict resizing to assets different than the spawner, but that is not too important really
+		if (selectedAsset) {
+			float scaleX = selectedAsset.transform.localScale.x;
+			scaleX += amount;
+			if (scaleX < minSize) {
+				scaleX = minSize;
+			} else if (scaleX > maxSize) {
+				scaleX = maxSize;
+			}
+			// Apply new scale
+			Vector3 tmp = selectedAsset.transform.localScale;
+			tmp.x = scaleX;
+			selectedAsset.transform.localScale = tmp;
+		}
+	}
+
+
+	// Returns true if an asset is selected and 
+	// highlighted, otherwise returns false.
+	public bool HasSelectedAsset () {
+		if (selectedAsset) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

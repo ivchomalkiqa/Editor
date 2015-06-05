@@ -13,7 +13,7 @@ public class UnwrapColumn : MonoBehaviour {
 	// The radius of the column which is unwrapped in this editor.
 	// This value must match the radius of the column inside the game,
 	// otherwise levels will not translate well from the editor to the game.
-	public float columnRadius = 5f;
+	public static float columnRadius = 5f;
 	// This is the coordinate on x-axis where the left edge of the unwrapped cylinder will be anchored
 	public float leftX = -13f;
 	// This is the coordinate on the y-axis where the bottom edge of the unwrapped cylinder will be anchored

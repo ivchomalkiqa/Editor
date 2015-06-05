@@ -10,14 +10,13 @@ public class CameraControls : MonoBehaviour {
 	Vector3 initialMousePosition;
 	bool isPanning;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
+	Editor edit;
 
+	void Start () {
+		edit = GameObject.FindGameObjectWithTag ("Editor").GetComponent<Editor> ();
+	}
+
+	void Update () {
 		// Do the panning of the camera first
 		if (isPanning) {
 			PanCamera ();
@@ -31,11 +30,11 @@ public class CameraControls : MonoBehaviour {
 			isPanning = false;
 		}
 
-		if (Input.GetAxis ("Mouse ScrollWheel") < 0) {
-			// zoom camera out
+		if (!edit.HasSelectedAsset () && Input.GetAxis ("Mouse ScrollWheel") < 0) {
+			// zoom camera out if no asset is selected
 			Camera.main.orthographicSize++;
-		} else if (Input.GetAxis ("Mouse ScrollWheel") > 0) {
-			// zoom camera in
+		} else if (!edit.HasSelectedAsset () && Input.GetAxis ("Mouse ScrollWheel") > 0) {
+			// zoom camera in if no asset is selected
 			Camera.main.orthographicSize--;
 		}
 	}
