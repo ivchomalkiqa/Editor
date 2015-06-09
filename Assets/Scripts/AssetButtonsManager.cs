@@ -55,7 +55,6 @@ public class AssetButtonsManager : MonoBehaviour {
 		string buttonName = button.GetComponentInChildren<Text> ().text;
 		// Check if this button is being clicked for the second time
 		if (selectedPrefab && buttonName == selectedPrefab.name) {
-			Debug.Log ("Button being deselected: " + buttonName);
 			selectedPrefab = null;
 			// Unhighlight selected button
 			SetButtonNormal (selectedButton);
@@ -78,7 +77,6 @@ public class AssetButtonsManager : MonoBehaviour {
 					selectedButton = button;
 					// Highlight new selected button
 					SetButtonPressed (selectedButton);
-					Debug.Log ("Button being selected: " + buttonName);
 					break;
 				}
 			}

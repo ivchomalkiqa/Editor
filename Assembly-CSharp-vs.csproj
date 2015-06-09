@@ -51,8 +51,13 @@
      <Compile Include="Assets\Scripts\Editor.cs" />
      <Compile Include="Assets\Scripts\FallingPlatform.cs" />
      <Compile Include="Assets\Scripts\InstructionsRemover.cs" />
+     <Compile Include="Assets\Scripts\LevelSegment.cs" />
+     <Compile Include="Assets\Scripts\LevelSerializer.cs" />
+     <Compile Include="Assets\Scripts\LoadMenu.cs" />
+     <Compile Include="Assets\Scripts\SaveMenu.cs" />
+     <Compile Include="Assets\Scripts\SegmentFactory.cs" />
+     <Compile Include="Assets\Scripts\SnappingTextUpdater.cs" />
      <Compile Include="Assets\Scripts\UnwrapColumn.cs" />
-     <Compile Include="Assets\SnappingTextUpdater.cs" />
      <None Include="Assets\Shaders\DefaultDiffuse.shader" />
      <None Include="Assets\Resources\AssetPrefabs\README.txt" />
  <Reference Include="UnityEngine.UI">

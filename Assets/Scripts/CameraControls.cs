@@ -3,18 +3,10 @@ using System.Collections;
 
 public class CameraControls : MonoBehaviour {
 
-	// A reference to the panel containing all the assets.
-	// It is needed because we need to know its width in pixels.
-	public RectTransform assetsPanel;
-
 	Vector3 initialMousePosition;
 	bool isPanning;
 
-	Editor edit;
-
-	void Start () {
-		edit = GameObject.FindGameObjectWithTag ("Editor").GetComponent<Editor> ();
-	}
+	public Editor edit;
 
 	void Update () {
 		// Do the panning of the camera first

@@ -20,6 +20,8 @@ public class Editor : MonoBehaviour {
 	// This is for the UI to update the text when snapping mode changes
 	public SnappingTextUpdater snapText;
 
+	public static bool stopMouseEvents = false;
+
 	// If the user clicks on an existing asset, it becomes selected
 	GameObject selectedAsset;
 	// A backup of the original shader used by the selected asset
@@ -40,6 +42,9 @@ public class Editor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (stopMouseEvents) {
+			return;
+		}
 		// On LMB mouse down, figure out whether the user is clicking on an asset,
 		// deselecting an already selected asset or creating a new one, by calling HandleSelection ()
 		if (Input.GetMouseButtonDown (0)) {
@@ -196,7 +201,6 @@ public class Editor : MonoBehaviour {
 		Vector2 assetSquare = new Vector2 (Mathf.Floor (assetPos.x / size.x),
 		                                   Mathf.Floor (assetPos.y / size.y));
 
-		Vector2 halfSize = size / 2f;
 		asset.transform.position = new Vector3 (assetSquare.x * size.x,
 		                                        assetSquare.y * size.y,
 		                                        asset.transform.position.z);
